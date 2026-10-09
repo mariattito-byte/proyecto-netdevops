@@ -1,0 +1,24 @@
+---
+- name: Aprovisionamiento de Servidores del Laboratorio
+  hosts: servidores
+  gather_facts: no
+  tasks:
+
+    - name: Actualizar repositorios e instalar utilitarios comunes
+      raw: apt update && apt install -y curl net-tools iputils-ping
+
+    - name: Configurar Servidor Web
+      raw: apt install -y nginx && service nginx start
+      when: inventory_hostname == 'srv-web'
+
+    - name: Configurar Servidor FTP
+      raw: apt install -y vsftpd && service vsftpd start
+      when: inventory_hostname == 'srv-ftp'
+
+    - name: Configurar Servidor DNS
+      raw: apt install -y bind9 && service named start
+      when: inventory_hostname == 'srv-dns'
+
+    - name: Configurar Servidor Mail
+      raw: DEBIAN_FRONTEND=noninteractive apt install -y postfix && service postfix start
+      when: inventory_hostname == 'srv-mail'

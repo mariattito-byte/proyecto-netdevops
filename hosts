@@ -1,0 +1,5 @@
+[servidores]
+srv-web ansible_connection=docker
+srv-ftp ansible_connection=docker
+srv-mail ansible_connection=docker
+srv-dns ansible_connection=docker
